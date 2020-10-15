@@ -1,0 +1,143 @@
+﻿@model IEnumerable<ThetaPOS.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Barcode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LongDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Features)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductBrandId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductCategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentSalePrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LatestPurchasePrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Images)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Views)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OpeningStock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OpeningDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentStock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedBy)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Barcode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShortDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LongDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Features)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductBrandId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductCategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentSalePrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LatestPurchasePrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Images)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Views)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OpeningStock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OpeningDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentStock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedBy)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

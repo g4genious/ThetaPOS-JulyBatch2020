@@ -1,0 +1,124 @@
+﻿@model ThetaPOS.Models.Product
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Barcode" class="control-label"></label>
+                <input asp-for="Barcode" class="form-control" />
+                <span asp-validation-for="Barcode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShortDescription" class="control-label"></label>
+                <input asp-for="ShortDescription" class="form-control" />
+                <span asp-validation-for="ShortDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LongDescription" class="control-label"></label>
+                <input asp-for="LongDescription" class="form-control" />
+                <span asp-validation-for="LongDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Features" class="control-label"></label>
+                <input asp-for="Features" class="form-control" />
+                <span asp-validation-for="Features" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductBrandId" class="control-label"></label>
+                <input asp-for="ProductBrandId" class="form-control" />
+                <span asp-validation-for="ProductBrandId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductCategoryId" class="control-label"></label>
+                <input asp-for="ProductCategoryId" class="form-control" />
+                <span asp-validation-for="ProductCategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrentSalePrice" class="control-label"></label>
+                <input asp-for="CurrentSalePrice" class="form-control" />
+                <span asp-validation-for="CurrentSalePrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LatestPurchasePrice" class="control-label"></label>
+                <input asp-for="LatestPurchasePrice" class="form-control" />
+                <span asp-validation-for="LatestPurchasePrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Images" class="control-label"></label>
+                <input asp-for="Images" class="form-control" />
+                <span asp-validation-for="Images" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Views" class="control-label"></label>
+                <input asp-for="Views" class="form-control" />
+                <span asp-validation-for="Views" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpeningStock" class="control-label"></label>
+                <input asp-for="OpeningStock" class="form-control" />
+                <span asp-validation-for="OpeningStock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpeningDate" class="control-label"></label>
+                <input asp-for="OpeningDate" class="form-control" />
+                <span asp-validation-for="OpeningDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrentStock" class="control-label"></label>
+                <input asp-for="CurrentStock" class="form-control" />
+                <span asp-validation-for="CurrentStock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedDate" class="control-label"></label>
+                <input asp-for="CreatedDate" class="form-control" />
+                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <input asp-for="CreatedBy" class="form-control" />
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModifiedDate" class="control-label"></label>
+                <input asp-for="ModifiedDate" class="form-control" />
+                <span asp-validation-for="ModifiedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModifiedBy" class="control-label"></label>
+                <input asp-for="ModifiedBy" class="form-control" />
+                <span asp-validation-for="ModifiedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
