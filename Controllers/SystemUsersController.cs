@@ -72,11 +72,9 @@ namespace ThetaPOS.Controllers
                     systemUser.ProfilePicture = FileUniqueName;
                 }
 
-
                 systemUser.Role = "Staff";
                 systemUser.CreatedDate = DateTime.Now;
                 systemUser.CreatedBy = "System";
-
 
                 _context.Add(systemUser);
                 await _context.SaveChangesAsync();
