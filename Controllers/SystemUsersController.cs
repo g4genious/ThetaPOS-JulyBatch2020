@@ -29,6 +29,7 @@ namespace ThetaPOS.Controllers
         // GET: SystemUsers
         public async Task<IActionResult> Index()
         {
+       
             return View(await _context.SystemUser.ToListAsync());
         }
 
@@ -96,11 +97,13 @@ namespace ThetaPOS.Controllers
                     smtp.Send(mail);
                     _context.Add(systemUser);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    ViewBag.SuccMsg = "Successfuly Registered";
+                    return View(systemUser);
+                    
                 }
                 else
                 {
-                    ViewBag.ErrMsg = "This user is Already Register";
+                    ViewBag.ErrMsg = "This User is Already Registered";
                     return View(systemUser);
                 }
             
