@@ -17,9 +17,10 @@ namespace ThetaPOS.Controllers
         private readonly theta_posContext _context;
         private readonly IWebHostEnvironment _env;
 
-        public ProductCategoriesController(theta_posContext context)
+        public ProductCategoriesController(theta_posContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         // GET: ProductCategories
@@ -167,8 +168,7 @@ namespace ThetaPOS.Controllers
         {
             Product p = new Product();
             var productCategory = await _context.ProductCategory.FindAsync(id);
-            
-            if (productCategory.Id == p.ProductCategoryId)
+            if (productCategory.Id != p.ProductCategoryId)
             {
                 _context.ProductCategory.Remove(productCategory);
                 await _context.SaveChangesAsync();

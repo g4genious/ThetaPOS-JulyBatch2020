@@ -15,7 +15,7 @@ namespace ThetaPOS.Models
         [MaxLength(500)]
        
         public string Description { get; set; }
-        [Required]
+        [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif)$", ErrorMessage = "Only Image files allowed.")]
         public string Image { get; set; }
      
         public string ParentCategory { get; set; }
