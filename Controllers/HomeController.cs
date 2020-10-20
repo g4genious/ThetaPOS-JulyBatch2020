@@ -18,6 +18,7 @@ namespace ThetaPOS.Controllers
             _logger = logger;
         }
 
+        //this commented is added by usman.
         public IActionResult Index()
         {
             return View();
