@@ -4,13 +4,13 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
 
-<h4>SystemUser</h4>
+<h1>Register Here!</h1>
+<p class="alert-danger">@ViewBag.ErrMsg</p>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
@@ -18,8 +18,12 @@
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="ProfilePicture" class="control-label"></label>
+                <input id="user_pic" name="user_pic" type="file" accept=".png .jpg" class="form-control" />
+            </div>
+            <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" type="password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -27,11 +31,7 @@
                 <input asp-for="DisplayName" class="form-control" />
                 <span asp-validation-for="DisplayName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ProfilePicture" class="control-label"></label>
-                <input asp-for="ProfilePicture" class="form-control" />
-                <span asp-validation-for="ProfilePicture" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
@@ -44,8 +44,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Role" class="control-label"></label>
-                <input asp-for="Role" class="form-control" />
-                <span asp-validation-for="Role" class="text-danger"></span>
+                <select asp-for="Role" class="form-control">
+                    <option value="Admin">Admin
+                    </option>
+                    <option value="Staff">Staff
+                    </option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
