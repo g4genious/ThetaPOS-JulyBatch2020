@@ -19,6 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\categories\" />
+    <Folder Include="wwwroot\brands\" />
+    <Folder Include="wwwroot\products\" />
     <Folder Include="wwwroot\pps\" />
   </ItemGroup>
 
