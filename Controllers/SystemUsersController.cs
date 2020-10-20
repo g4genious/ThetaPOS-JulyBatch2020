@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -48,7 +50,8 @@ namespace ThetaPOS.Controllers
             return View(systemUser);
         }
 
-        // GET: SystemUsers/Create
+        // GET: SystemUsers/Create updated by Rizwan
+
         public IActionResult Create()
         {
             return View();
@@ -59,63 +62,102 @@ namespace ThetaPOS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( SystemUser systemUser, IFormFile PP)
+        public async Task<IActionResult> Create(SystemUser systemUser,IFormFile user_pic)
         {
             if (ModelState.IsValid)
             {
-                if(PP!=null && PP.Length>0)
+               Boolean usr = _context.SystemUser.Any(user => user.Username == systemUser.Username);
+                Boolean usrmail = _context.SystemUser.Any(user => user.Email == systemUser.Email);
+                if (!usr && !usrmail)
                 {
-                    string ppsPath = _env.WebRootPath + "/pps/";
-                    string FileUniqueName = Guid.NewGuid().ToString()+Path.GetExtension(PP.FileName);
-                  await  PP.CopyToAsync(new FileStream(ppsPath+FileUniqueName,FileMode.CreateNew));
-
-                    systemUser.ProfilePicture = FileUniqueName;
+                    if (user_pic != null)
+                    {
+                        string pic_name = Guid.NewGuid().ToString() + Path.GetExtension(user_pic.FileName);
+                        string pic_path = _env.WebRootPath.ToString() + "/WebData/SystemUsersImages" + (pic_name);
+                        System.IO.FileStream FS = new System.IO.FileStream(pic_path, FileMode.Create);
+                        await user_pic.CopyToAsync(FS);
+                        systemUser.ProfilePicture = pic_name;
+                    }
+                    //else
+                    //{
+                    //    systemUser.ProfilePicture = "/Webdata/SystemUsersImages/userProfile.png";
+                    //}
+                    MailMessage mail = new MailMessage();
+                    mail.From = new MailAddress("bsef17m526@pucit.edu.pk", "TheetaPOS");
+                    mail.To.Add(systemUser.Email);
+                    mail.Subject = "Welcome!" + systemUser.DisplayName + " You are Registered Successfully";
+                    mail.Body = "<h3>Congratulations!</h3><br><p>You will be happy after using our Services</p>";
+                    mail.IsBodyHtml = true;
+                    SmtpClient smtp = new SmtpClient();
+                    smtp.Host = "smtp.gmail.com";
+                    smtp.Credentials = new System.Net.NetworkCredential("bsef17m526@pucit.edu.pk", "rizwan67");
+                    smtp.Port = 587;
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                    _context.Add(systemUser);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-
-                systemUser.Role = "Staff";
-                systemUser.CreatedDate = DateTime.Now;
-                systemUser.CreatedBy = "System";
-
-                _context.Add(systemUser);
-                await _context.SaveChangesAsync();
-
-                //send registration email to new user
-
-                if (!string.IsNullOrEmpty(systemUser.Email))
+                else
                 {
-                    MailMessage MM = new MailMessage();
-                    MM.From = new MailAddress("students.thetasolutions@gmail.com", "Theta POS");
-                    MM.To.Add(systemUser.Email);
-                    MM.Subject = "Welcome to Theta POS";
-                    MM.Body = "Dear " + systemUser.DisplayName + ",<br/><br/>Thanks for registering with Theta POS. Please find below your credentials and keep them safe to login on Theta POS.<br/><br/>" +
-
-                        "<span style='color:green;'> Username: " + systemUser.Username + "<br/>" +
-                        "Password: " + systemUser.Password + "</span><br/><br/>" +
-
-                        "Feel free to contact us in case you need any assistance.<br/><br/>" +
-
-                        "Regards,<br/>" +
-                        "Team Theta POS";
-
-                    MM.IsBodyHtml = true;
-
-
-
-
-                    SmtpClient SC = new SmtpClient();
-                    SC.Credentials = new System.Net.NetworkCredential("students.thetasolutions@gmail.com", "fBd6LHc3zX2t");
-                    SC.Host = "smtp.gmail.com";
-                    SC.Port = 587;
-                    SC.EnableSsl = true;
-                   await SC.SendMailAsync(MM);
-
-
+                    ViewBag.ErrMsg = "This user is Already Register";
+                    return View(systemUser);
                 }
-                
-                
+            
+            }
+            return View(nameof(Create));
+
+        }
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Login(string username,string password)
+        {
+            Boolean usr = _context.SystemUser.Any(user => user.Username ==username && user.Password==password);
+            if (usr)
+            {
                 return RedirectToAction(nameof(Index));
             }
-            return View(systemUser);
+            else
+            {
+                ViewBag.ErrMsg = "Invalid username or password";
+                return View();
+            }
+        }
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost][AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public  IActionResult ForgotPassword(SystemUser usr)
+        {
+
+            SystemUser ps = _context.SystemUser.Where(user => user.Email == usr.Email).FirstOrDefault();
+            if (ModelState.IsValid)
+            {
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("bsef17m526@pucit.edu.pk", "TheetPOS");
+                mail.To.Add(usr.Email);
+                mail.Subject = "Welcome Back! " + ps.DisplayName; 
+                mail.Body = "Your Password is: "+ps.Password+" </ br > " ;
+                mail.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.Credentials = new System.Net.NetworkCredential("bsef17m526@pucit.edu.pk", "rizwan67");
+                smtp.Port = 587;
+                smtp.EnableSsl = true;
+                smtp.Send(mail);
+                ViewBag.passwordSend = "Your password has been send to this email please check!";
+                return View();
+            }
+            return View();
+
+            
         }
 
         // GET: SystemUsers/Edit/5
@@ -133,6 +175,11 @@ namespace ThetaPOS.Controllers
             }
             return View(systemUser);
         }
+
+        //public IActionResult Register()
+        //{
+
+        //}
 
         // POST: SystemUsers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 

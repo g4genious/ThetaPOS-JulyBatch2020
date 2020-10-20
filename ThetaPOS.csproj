@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\pps\" />
+    <Folder Include="wwwroot\WebData\SystemUsersImages\" />
   </ItemGroup>
 
 </Project>
