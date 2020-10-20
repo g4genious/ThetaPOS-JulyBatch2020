@@ -15,8 +15,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-        
-        
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.ParentCategory)
             </th>
@@ -44,7 +48,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-        
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Image)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ParentCategory)
             </td>
@@ -64,9 +73,9 @@
                 @Html.DisplayFor(modelItem => item.ModifiedBy)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" >Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
