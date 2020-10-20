@@ -50,7 +50,7 @@ namespace ThetaPOS.Controllers
             return View(systemUser);
         }
 
-        // GET: SystemUsers/Create
+        // GET: SystemUsers/Create updated by Rizwan
 
         public IActionResult Create()
         {
