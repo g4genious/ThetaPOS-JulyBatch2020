@@ -1,27 +1,44 @@
 ﻿@model ThetaPOS.Models.SystemUser
 <h1>Login</h1>
-<h3 style="color:red">@ViewBag.ErrMsg</h3>
+<input type="hidden" value="@ViewBag.ErrMsg" id="err" />
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Login" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-primary" />
-            </div>
-            <div class="form-group">
-                <a asp-controller="SystemUsers" asp-action="ForgotPassword">ForgotPassword?</a>
-            </div>
-        </form>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Login" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Username" class="control-label"></label>
+                    <input asp-for="Username" class="form-control" required/>
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" type="password" class="form-control" required/>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Login" class="btn btn-primary" />
+                </div>
+                <div class="form-group">
+                    <a asp-controller="SystemUsers" asp-action="ForgotPassword">ForgotPassword?</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+ @section Scripts {
+
+        <script>
+        $(function () {
+            //alert($('#err').val());
+            if ($('#err').val() != null && $('#err').val() != '' && $('#err').val() != 'undefined') {
+                swal("OOPS!", $('#err').val(), "error");
+            }
+            //if ($('#succ').val() != null && $('#succ').val() != '' && $('#succ').val() != 'undefined') {
+            //    swal("Congratulations!", $('#succ').val(), "success");
+            //}
+
+
+        });
+        </script>
+
+    }

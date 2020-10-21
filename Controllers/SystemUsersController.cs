@@ -119,15 +119,15 @@ namespace ThetaPOS.Controllers
         [HttpPost]
         public IActionResult Login(string username,string password)
         {
-            Boolean usr = _context.SystemUser.Any(user => user.Username ==username && user.Password==password);
-            if (usr)
+            SystemUser usr = _context.SystemUser.FirstOrDefault(user => user.Username ==username && user.Password==password);
+            if (usr!=null)
             {
                 return RedirectToAction(nameof(Index));
             }
             else
             {
                 ViewBag.ErrMsg = "Invalid username or password";
-                return View();
+                return View(usr);
             }
         }
         [HttpGet]
@@ -156,7 +156,7 @@ namespace ThetaPOS.Controllers
                 smtp.EnableSsl = true;
                 smtp.Send(mail);
                 ViewBag.passwordSend = "Your password has been send to this email please check!";
-                return View();
+                return View(ps);
             }
             return View();
 
