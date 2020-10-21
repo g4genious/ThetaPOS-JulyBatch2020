@@ -79,10 +79,6 @@ namespace ThetaPOS.Controllers
                         await user_pic.CopyToAsync(FS);
                         systemUser.ProfilePicture = pic_name;
                     }
-                    //else
-                    //{
-                    //    systemUser.ProfilePicture = "/Webdata/SystemUsersImages/userProfile.png";
-                    //}
                     MailMessage mail = new MailMessage();
                     mail.From = new MailAddress("bsef17m526@pucit.edu.pk", "TheetaPOS");
                     mail.To.Add(systemUser.Email);
@@ -103,8 +99,8 @@ namespace ThetaPOS.Controllers
                 }
                 else
                 {
-                    ViewBag.ErrMsg = "This User is Already Registered";
-                    return View(systemUser);
+                   ViewBag.ErrMsg = "This "+systemUser.Username+" or "+systemUser.Email+" is Already Exist";
+                   return View(systemUser);
                 }
             
             }
