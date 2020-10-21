@@ -64,9 +64,9 @@ namespace ThetaPOS.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var Cname = await _context.ProductCategory.FirstOrDefaultAsync(m => m.Name == productCategory.Name);
+                    Boolean Cname = await _context.ProductCategory.AnyAsync(m => m.Name == productCategory.Name);
 
-                    if (Cname == null)
+                    if (!Cname)
                     {
                         if (categoryimg != null && categoryimg.Length > 0)
                         {
