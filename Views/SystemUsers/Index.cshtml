@@ -5,7 +5,7 @@
 
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -66,7 +66,15 @@
                     @Html.DisplayFor(modelItem => item.DisplayName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ProfilePicture)
+                    @if (item.ProfilePicture != null)
+                    {
+                        <img src="~/WebData/SystemUsersImages/@item.ProfilePicture" class="img-fluid w-100 h-90 rounded-circle" />
+                    }
+                    else
+                    {
+                        <img src="~/WebData/userProfile.png" class="img-fluid w-100 h-90 rounded-circle"  />
+                    }
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)
@@ -96,9 +104,9 @@
                     @Html.DisplayFor(modelItem => item.ModifiedBy)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm"><span class="fa fa-pencil-square-o"></span>Edit</a> 
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success btn-sm"><span class="fa fa-eye"></span>Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span>Delete</a>
                 </td>
             </tr>
         }
