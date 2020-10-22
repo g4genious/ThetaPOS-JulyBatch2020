@@ -91,6 +91,7 @@ namespace ThetaPOS.Controllers
                     smtp.Port = 587;
                     smtp.EnableSsl = true;
                     smtp.Send(mail);
+                    systemUser.Role = "Staff";
                     _context.Add(systemUser);
                     await _context.SaveChangesAsync();
                     ViewBag.SuccMsg = "Successfuly Registered";
@@ -107,6 +108,14 @@ namespace ThetaPOS.Controllers
             return View(nameof(Create));
 
         }
+        public IActionResult AdminView()
+        {
+            return View();
+        }
+        public IActionResult StaffView()
+        {
+            return View();
+        }
         [HttpGet]
         public IActionResult Login()
         {
@@ -120,7 +129,14 @@ namespace ThetaPOS.Controllers
             {
                 HttpContext.Session.SetString("Role", usr.Role);
                 HttpContext.Session.SetString("Username", usr.Username);
-                return RedirectToAction(nameof(Index));
+                if(usr.Role=="Admin")
+                {
+                    return RedirectToAction(nameof(AdminView));
+                }
+                else
+                {
+                    return RedirectToAction(nameof(StaffView));
+                }
             }
             else
             {

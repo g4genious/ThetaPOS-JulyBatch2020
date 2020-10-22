@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ThetaPOS.Models.ProductBrand>
 
 @{
-    ViewData["Title"] = "Index";
+    Layout = null;
 }
 
 <h1>Index</h1>
@@ -66,9 +66,17 @@
                 @Html.DisplayFor(modelItem => item.ModifiedBy)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @if (Context.Session.GetString("Role") == "Admin")
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                }
+                else
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                }
             </td>
         </tr>
 }

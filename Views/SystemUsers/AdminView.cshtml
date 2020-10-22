@@ -1,0 +1,32 @@
+﻿
+<div class="row">
+
+    <div class="col-md-2">
+        <a class="btn btn-success btn-sm product ">Products</a>
+        <a  class="btn btn-success btn-sm productB">ProductBrands</a>
+        <a  class="btn btn-success btn-sm productC">ProductCategories</a>
+    </div>
+    <div class="col-md-10 dash">
+
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        $(function () {
+
+            $('.product').click(function () {
+                $('.dash').load("/Products/Index");
+            });
+
+            $('.productB').click(function () {
+                $('.dash').load("/ProductBrands/Index");
+            });
+
+            $('.productC').click(function () {
+                $('.dash').load("/ProductCategories/Index");
+            });
+        });
+  
+    </script>
+}
