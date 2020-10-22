@@ -29,6 +29,7 @@ namespace ThetaPOS.Controllers
         // GET: SystemUsers
         public async Task<IActionResult> Index()
         {
+       
             return View(await _context.SystemUser.ToListAsync());
         }
 
@@ -73,15 +74,11 @@ namespace ThetaPOS.Controllers
                     if (user_pic != null)
                     {
                         string pic_name = Guid.NewGuid().ToString() + Path.GetExtension(user_pic.FileName);
-                        string pic_path = _env.WebRootPath.ToString() + "/WebData/SystemUsersImages" + (pic_name);
+                        string pic_path = _env.WebRootPath.ToString() + "/WebData/SystemUsersImages/" + (pic_name);
                         System.IO.FileStream FS = new System.IO.FileStream(pic_path, FileMode.Create);
                         await user_pic.CopyToAsync(FS);
                         systemUser.ProfilePicture = pic_name;
                     }
-                    //else
-                    //{
-                    //    systemUser.ProfilePicture = "/Webdata/SystemUsersImages/userProfile.png";
-                    //}
                     MailMessage mail = new MailMessage();
                     mail.From = new MailAddress("bsef17m526@pucit.edu.pk", "TheetaPOS");
                     mail.To.Add(systemUser.Email);
@@ -96,12 +93,14 @@ namespace ThetaPOS.Controllers
                     smtp.Send(mail);
                     _context.Add(systemUser);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    ViewBag.SuccMsg = "Successfuly Registered";
+                    return RedirectToAction(nameof(Login));
+                    
                 }
                 else
                 {
-                    ViewBag.ErrMsg = "This user is Already Register";
-                    return View(systemUser);
+                   ViewBag.ErrMsg = "This "+systemUser.Username+" or "+systemUser.Email+" is Already Exist";
+                   return View(systemUser);
                 }
             
             }
@@ -116,16 +115,23 @@ namespace ThetaPOS.Controllers
         [HttpPost]
         public IActionResult Login(string username,string password)
         {
-            Boolean usr = _context.SystemUser.Any(user => user.Username ==username && user.Password==password);
-            if (usr)
+            SystemUser usr = _context.SystemUser.FirstOrDefault(user => user.Username ==username && user.Password==password);
+            if (usr!=null)
             {
+                HttpContext.Session.SetString("Role", usr.Role);
+                HttpContext.Session.SetString("Username", usr.Username);
                 return RedirectToAction(nameof(Index));
             }
             else
             {
                 ViewBag.ErrMsg = "Invalid username or password";
-                return View();
+                return View(usr);
             }
+        }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction(nameof(Login));
         }
         [HttpGet]
         public IActionResult ForgotPassword()
@@ -153,7 +159,7 @@ namespace ThetaPOS.Controllers
                 smtp.EnableSsl = true;
                 smtp.Send(mail);
                 ViewBag.passwordSend = "Your password has been send to this email please check!";
-                return View();
+                return View(ps);
             }
             return View();
 
@@ -186,7 +192,7 @@ namespace ThetaPOS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Password,DisplayName,ProfilePicture,Address,Mobile,Role,Email,Status,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy")] SystemUser systemUser)
+        public async Task<IActionResult> Edit(int id,SystemUser systemUser, IFormFile pp)
         {
             if (id != systemUser.Id)
             {
@@ -195,6 +201,11 @@ namespace ThetaPOS.Controllers
 
             if (ModelState.IsValid)
             {
+                string pic_name = Guid.NewGuid().ToString() + Path.GetExtension(pp.FileName);
+                string pic_path = _env.WebRootPath.ToString() + "/WebData/SystemUsersImages/" + (pic_name);
+                System.IO.FileStream FS = new System.IO.FileStream(pic_path, FileMode.Create);
+                await pp.CopyToAsync(FS);
+                systemUser.ProfilePicture = pic_name;
                 try
                 {
                     _context.Update(systemUser);

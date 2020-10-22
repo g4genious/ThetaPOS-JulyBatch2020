@@ -1,12 +1,10 @@
 ﻿@model ThetaPOS.Models.SystemUser
 
-@{
-    ViewData["Title"] = "Create";
-}
 
 
 <h1>Register Here!</h1>
-<p class="alert-danger">@ViewBag.ErrMsg</p>
+<input type="hidden" value="@ViewBag.ErrMsg" id="err" />
+<input type="hidden" value="@ViewBag.SuccMsg" id="succ" />
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,7 +12,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" />
+                <input asp-for="Username" class="form-control"  required/>
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -23,40 +21,42 @@
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" type="password" class="form-control" />
+                <input asp-for="Password" type="password" class="form-control" required />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DisplayName" class="control-label"></label>
-                <input asp-for="DisplayName" class="form-control" />
+                <input asp-for="DisplayName" class="form-control" required/>
                 <span asp-validation-for="DisplayName" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
+                <input asp-for="Address" class="form-control" required/>
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Mobile" class="control-label"></label>
-                <input asp-for="Mobile" class="form-control" />
+                <input asp-for="Mobile" class="form-control" required/>
                 <span asp-validation-for="Mobile" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Role" class="control-label"></label>
                 <select asp-for="Role" class="form-control">
-                    <option value="Admin">Admin
+                    <option value="Admin">
+                        Admin
                     </option>
-                    <option value="Staff">Staff
+                    <option value="Staff">
+                        Staff
                     </option>
                 </select>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" type="email" class="form-control" required />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                 <input asp-for="Status" class="form-control" />
                 <span asp-validation-for="Status" class="text-danger"></span>
@@ -80,7 +80,7 @@
                 <label asp-for="ModifiedBy" class="control-label"></label>
                 <input asp-for="ModifiedBy" class="form-control" />
                 <span asp-validation-for="ModifiedBy" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -88,10 +88,22 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(function () {
+            //alert($('#err').val());
+            if ($('#err').val() != null && $('#err').val() != '' && $('#err').val() != 'undefined') {
+                swal("OOPS!", $('#err').val(), "error");
+            }
+            if ($('#succ').val() != null && $('#succ').val() != '' && $('#succ').val() != 'undefined') {
+                swal("Congratulations!", $('#succ').val(), "success");
+            }
+
+
+        });
+    </script>
+
 }
+

@@ -1,8 +1,6 @@
 ﻿@model ThetaPOS.Models.SystemUser
 
-@{
-    ViewData["Title"] = "Details";
-}
+
 
 <h1>Details</h1>
 
@@ -31,8 +29,16 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ProfilePicture)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProfilePicture)
+        <dd class="col-sm-10">
+            @if (Model.ProfilePicture != null)
+            {
+                <img src="~/WebData/SystemUsersImages/@Model.ProfilePicture" class="img-fluid" style="max-height:90px;max-height:80px" />
+            }
+            else
+            {
+                <img src="~/WebData/userProfile.png" class="img-fluid"style="max-height:90px;max-height:80px" />
+            
+            }
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Address)
@@ -91,6 +97,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><span class="fa fa-pencil-square"></span>Edit</a> 
+    <a asp-action="Index" class="btn btn-outline-success" ><span class="fa fa-list"></span>Back to List</a>
 </div>
