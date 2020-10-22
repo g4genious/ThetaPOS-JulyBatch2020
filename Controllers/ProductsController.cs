@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +16,11 @@ namespace ThetaPOS.Controllers
     public class ProductsController : Controller
     {
         private readonly theta_posContext _context;
-
-        public ProductsController(theta_posContext context)
+        private readonly IWebHostEnvironment _env;
+        public ProductsController(theta_posContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         // GET: Products
@@ -34,6 +39,7 @@ namespace ThetaPOS.Controllers
 
             var product = await _context.Product
                 .FirstOrDefaultAsync(m => m.Id == id);
+            ViewBag.pimages = product.Images;
             if (product == null)
             {
                 return NotFound();
@@ -45,6 +51,9 @@ namespace ThetaPOS.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
+           ViewBag.categorylist = _context.ProductCategory.ToList();
+            ViewBag.brandlist = _context.ProductBrand.ToList();
+
             return View();
         }
 
@@ -53,13 +62,38 @@ namespace ThetaPOS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Barcode,ShortDescription,LongDescription,Features,ProductBrandId,ProductCategoryId,CurrentSalePrice,LatestPurchasePrice,Images,Views,OpeningStock,OpeningDate,CurrentStock,Status,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy")] Product product)
+        public async Task<IActionResult> Create(Product product, IList<IFormFile> pimg)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var Pname = await _context.Product.FirstOrDefaultAsync(m => m.Name == product.Name);
+                if (Pname == null)
+                {
+                    if (pimg != null)
+                    {
+                        string productimgFPath = _env.WebRootPath + "/products/";
+                        string Filepath = "";
+                        foreach (var Images in pimg)
+                        {
+                            string filename = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(Images.FileName);
+                            Filepath = productimgFPath + filename;
+                            System.IO.FileStream fs = new System.IO.FileStream(Filepath,System.IO.FileMode.Create);
+                            Images.CopyTo(fs);
+                            product.Images += (filename+",");
+                            if (!string.IsNullOrEmpty(product.Images))
+                            {
+                               product.Images= product.Images.Remove(product.Images.LastIndexOf(","));
+                            }
+                        
+                        }
+                    }
+                    product.Status = "Active";
+                    product.CreatedDate = DateTime.Now;
+
+                    _context.Add(product);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(product);
         }
