@@ -80,11 +80,12 @@ namespace ThetaPOS.Controllers
                             System.IO.FileStream fs = new System.IO.FileStream(Filepath,System.IO.FileMode.Create);
                             Images.CopyTo(fs);
                             product.Images += (filename+",");
-                            if (!string.IsNullOrEmpty(product.Images))
-                            {
-                               product.Images= product.Images.Remove(product.Images.LastIndexOf(","));
-                            }
                         
+                        
+                        }
+                        if (!string.IsNullOrEmpty(product.Images))
+                        {
+                            product.Images = product.Images.Remove(product.Images.LastIndexOf(","));
                         }
                     }
                     product.Status = "Active";
