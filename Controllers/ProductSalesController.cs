@@ -54,7 +54,7 @@ namespace ThetaPOS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SaleDate,SalePrice,Discount,FinalPrice,Status,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy")] ProductSale productSale)
+        public async Task<IActionResult> Create( ProductSale productSale)
         {
             if (ModelState.IsValid)
             {
