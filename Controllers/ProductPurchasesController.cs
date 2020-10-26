@@ -45,6 +45,7 @@ namespace ThetaPOS.Controllers
         // GET: ProductPurchases/Create
         public IActionResult Create()
         {
+            ViewBag.ProductsList = _context.Product.ToList();
             return View();
         }
 
