@@ -1,10 +1,11 @@
-﻿
+﻿@model ThetaPOS.Models.SystemUser
 <div class="row">
 
     <div class="col-md-2">
         <a class="btn btn-success btn-sm product ">Products</a>
         <a class="btn btn-success btn-sm productB">ProductBrands</a>
         <a class="btn btn-success btn-sm productC">ProductCategories</a>
+        <a class="btn btn-success btn-sm myProfile" data-id=@Context.Session.GetInt32("Id")>My Profile</a>
     </div>
     <div class="col-md-10 dash">
 
@@ -25,6 +26,10 @@
 
             $('.productC').click(function () {
                 $('.dash').load("/ProductCategories/Index");
+            });
+
+            $('.myProfile').click(function () {
+                $('.dash').load("/SystemUsers/Details/" + id);
             });
         });
 

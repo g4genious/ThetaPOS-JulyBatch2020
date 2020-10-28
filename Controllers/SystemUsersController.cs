@@ -129,7 +129,8 @@ namespace ThetaPOS.Controllers
             {
                 HttpContext.Session.SetString("Role", usr.Role);
                 HttpContext.Session.SetString("Username", usr.Username);
-                if(usr.Role=="Admin")
+                HttpContext.Session.SetInt32("Id", usr.Id);
+                if (usr.Role=="Admin")
                 {
                     return RedirectToAction(nameof(AdminView));
                 }
@@ -148,6 +149,41 @@ namespace ThetaPOS.Controllers
         {
             HttpContext.Session.Clear();
             return RedirectToAction(nameof(Login));
+        }
+        [HttpGet]
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult ResetPassword(String password,int id)
+
+        {
+            SystemUser ps = _context.SystemUser.Where(usr=>usr.Id==id).FirstOrDefault();
+            ps.Password = password;
+            _context.Update(ps);
+            _context.SaveChanges();
+          
+            if (ModelState.IsValid)
+            {
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("bsef17m526@pucit.edu.pk", "TheetPOS");
+                mail.To.Add(ps.Email);
+                mail.Subject = "Welcome Back! " + ps.DisplayName;
+                mail.Body = "Your  New Password is: " + ps.Password + " </ br > ";
+                mail.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.Credentials = new System.Net.NetworkCredential("bsef17m526@pucit.edu.pk", "rizwan67");
+                smtp.Port = 587;
+                smtp.EnableSsl = true;
+                smtp.Send(mail);
+                ViewBag.passwordSend = "Your New password has been send to this email please check!";
+                HttpContext.Session.Clear();
+                return RedirectToAction(nameof(Login));
+
+            }
+            return View();
         }
         [HttpGet]
         public IActionResult ForgotPassword()
@@ -181,6 +217,12 @@ namespace ThetaPOS.Controllers
 
             
         }
+   
+        public IActionResult Profile()
+        {
+            return View();
+        }
+     
 
         // GET: SystemUsers/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -217,11 +259,14 @@ namespace ThetaPOS.Controllers
 
             if (ModelState.IsValid)
             {
-                string pic_name = Guid.NewGuid().ToString() + Path.GetExtension(pp.FileName);
-                string pic_path = _env.WebRootPath.ToString() + "/WebData/SystemUsersImages/" + (pic_name);
-                System.IO.FileStream FS = new System.IO.FileStream(pic_path, FileMode.Create);
-                await pp.CopyToAsync(FS);
-                systemUser.ProfilePicture = pic_name;
+                if (pp != null)
+                {
+                    string pic_name = Guid.NewGuid().ToString() + Path.GetExtension(pp.FileName);
+                    string pic_path = _env.WebRootPath.ToString() + "/WebData/SystemUsersImages/" + (pic_name);
+                    System.IO.FileStream FS = new System.IO.FileStream(pic_path, FileMode.Create);
+                    await pp.CopyToAsync(FS);
+                    systemUser.ProfilePicture = pic_name;
+                }
                 try
                 {
                     _context.Update(systemUser);
