@@ -115,6 +115,13 @@ namespace ThetaPOS.Controllers
             }
             return View(productSale);
         }
+    
+        public IActionResult MySales(string usrname)
+        {
+
+           IList <ProductSale> ps = _context.ProductSale.Where(usr => usr.CreatedBy.Equals(usrname)).ToList();
+            return View(ps);
+        }
 
         // GET: ProductSales/Delete/5
         public async Task<IActionResult> Delete(int? id)

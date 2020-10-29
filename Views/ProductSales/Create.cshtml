@@ -14,11 +14,6 @@ s
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="ItemId" class="control-label"> Item</label>
-                    @Html.DropDownListFor(model => model.ItemId, AllProducts, "-- Select Item --")
-                    <span asp-validation-for="SaleDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="SaleDate" class="control-label"></label>
                     <input asp-for="SaleDate" class="form-control" />
                     <span asp-validation-for="SaleDate" class="text-danger"></span>

@@ -7,7 +7,8 @@
         <a class="btn btn-success btn-sm productB">ProductBrands</a>
         <a class="btn btn-success btn-sm productC">ProductCategories</a>
         <a class="btn btn-success btn-sm myProfile" data-id=@Context.Session.GetInt32("Id")>My Profile</a>
-
+        <a class="btn btn-success btn-sm productSale"  data-usrname=@Context.Session.GetString("Username")>My Sales</a>
+        <a class="btn btn-success btn-sm productPurchase"  data-usrname1=@Context.Session.GetString("Username")>My Purchases</a>
     </div>
     <div class="col-md-10 dash">
 
@@ -32,8 +33,20 @@
 
             $('.myProfile').click(function () {
                 var id = $(this).data("id");
-                console.log(id);
+                //console.log(id);
                 $('.dash').load("/SystemUsers/Details/"+id);
+            });
+
+            $('.productSale').click(function () {
+                var usrname = $(this).data("usrname");
+                //alert(usrname);
+                $('.dash').load("/ProductSales/MySales?usrname="+usrname);
+            });
+
+            $('.productPurchase').click(function () {
+                var usrname = $(this).data("usrname1");
+                //alert(usrname);
+                $('.dash').load("/ProductPurchases/MyPurchases?usrname=" + usrname);
             });
         });
 

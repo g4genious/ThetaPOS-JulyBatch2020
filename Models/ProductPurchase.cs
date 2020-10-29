@@ -6,7 +6,6 @@ namespace ThetaPOS.Models
     public partial class ProductPurchase
     {
         public int Id { get; set; }
-         public int ItemId { get; set; }
         public DateTime? PurchaseDate { get; set; }
         public decimal? PurchasePrice { get; set; }
         public decimal? Discount { get; set; }

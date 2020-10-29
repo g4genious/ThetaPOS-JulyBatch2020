@@ -149,5 +149,10 @@ namespace ThetaPOS.Controllers
         {
             return _context.ProductPurchase.Any(e => e.Id == id);
         }
+        public IActionResult MyPurchases(string usrname)
+        {
+            IList<ProductPurchase> ps = _context.ProductPurchase.Where(usr => usr.CreatedBy.Equals(usrname)).ToList();
+            return View(ps);
+        }
     }
 }
