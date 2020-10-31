@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using ThetaPOS.Models;
 
 namespace ThetaPOS.Models
 {
@@ -381,5 +382,7 @@ namespace ThetaPOS.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<ThetaPOS.Models.ViewModelProductsData> ViewModelProductsData { get; set; }
     }
 }

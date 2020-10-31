@@ -28,7 +28,37 @@ namespace ThetaPOS.Controllers
         {
             return View(await _context.Product.ToListAsync());
         }
-
+        public IActionResult ProductsData(int id)
+        {
+            ViewModelProductsData productdata = (from p in _context.Product.Where(p=>p.Id == id)
+                               join c in _context.ProductCategory on p.ProductCategoryId equals c.Id
+                               join b in _context.ProductBrand on p.ProductBrandId equals b.Id 
+                               select new ViewModelProductsData() 
+                               { 
+                                  //sir code theek hai ?
+                                   Id = p.Id,
+                                   Name = p.Name,
+                                   Barcode = p.Barcode,
+                                   ShortDescription = p.ShortDescription,
+                                   LongDescription = p.LongDescription,
+                                   Features = p.Features,
+                                   ProductBrand = b.Name,
+                                   ProductCategory = c.Name,
+                                   CurrentSalePrice = p.CurrentSalePrice,
+                                   LatestPurchasePrice = p.LatestPurchasePrice,
+                                   Images = p.Images,
+                                   Views = p.Views,
+                                   OpeningStock = p.OpeningStock,
+                                   OpeningDate = p.OpeningDate,
+                                   CurrentStock = p.CurrentStock,
+                                   Status = p.Status,
+                                   CreatedDate = p.CreatedDate,
+                                   CreatedBy = p.CreatedBy,
+                                   ModifiedDate = p.ModifiedDate,
+                                   ModifiedBy = p.ModifiedBy
+                               }).FirstOrDefault();
+            return View(productdata);
+        }
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -90,11 +120,13 @@ namespace ThetaPOS.Controllers
                     }
                     product.Status = "Active";
                     product.CreatedDate = DateTime.Now;
+                    product.OpeningDate = DateTime.Now;
 
                     _context.Add(product);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
+              
             }
             return View(product);
         }
