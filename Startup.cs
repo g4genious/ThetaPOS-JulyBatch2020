@@ -72,7 +72,7 @@ namespace ThetaPOS
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=SystemUsers}/{action=Create}/{id?}");
+                    pattern: "{controller=SystemUsers}/{action=Login}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
