@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<ThetaPOS.Models.Product>
 
-
 @{
-    Layout = null;
+    ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
@@ -10,93 +9,34 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
+<div class="row">
+    @foreach (Product item in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mr-1 mb-1" id="card" style="max-height:400px">
+                <div class="card-body">
+                    <h4 class="card-title">@item.Name</h4>
 
-            <th>
-                @Html.DisplayNameFor(model => model.ProductBrandId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductCategoryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CurrentSalePrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LatestPurchasePrice)
-            </th>
+                </div>
+                <img class="card-img-bottom img-thumbnail" src="/brands/@item.Images" alt="Card image">
+                <a asp-action="ProductsData" class="btn btn-outline-info" asp-route-id="@item.Id">Detail</a>
+                <a asp-action="Edit" class="btn btn-outline-success" asp-route-id="@item.Id">Edit</a>
+            </div>
+        </div>
 
-            <th>
-                @Html.DisplayNameFor(model => model.OpeningStock)
-            </th>
+    }
 
-            <th>
-                @Html.DisplayNameFor(model => model.CurrentStock)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
+</div>
+@section Scripts {
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
+    <script>
+        $(function () {
+            $('#card').click(
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductBrandId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductCategoryId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CurrentSalePrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LatestPurchasePrice)
-                </td>
+                $().load('/Products/ProductsData')
+               );
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.OpeningStock)
-                </td>
+        });
+    </script>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.CurrentStock)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
-
-                <td>
-                    @if (Context.Session.GetString("Role") == "Admin")
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    }
-                    else
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    }
-
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+}

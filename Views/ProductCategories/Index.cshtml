@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ThetaPOS.Models.ProductCategory>
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
@@ -9,74 +9,21 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-        
-        
-            <th>
-                @Html.DisplayNameFor(model => model.ParentCategory)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedBy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModifiedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModifiedBy)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-        
-            <td>
-                @Html.DisplayFor(modelItem => item.ParentCategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedBy)
-            </td>
-            <td>
-                @if (Context.Session.GetString("Role") == "Admin")
-                {
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                }
-                else
-                {
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                }
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row">
+    @foreach (ProductCategory item in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mr-1 mb-1" style="max-height:400px">
+                <div class="card-body">
+                    <h4 class="card-title">@item.Name</h4>
+
+                </div>
+                <img class="card-img-bottom img-thumbnail" src="/categories/@item.Image" alt="Card image">
+                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">Detail</a>
+                <a asp-action="Edit" class="btn btn-outline-success" asp-route-id="@item.Id">Edit</a>
+            </div>
+        </div>
+       
+    }
+   
+</div>
