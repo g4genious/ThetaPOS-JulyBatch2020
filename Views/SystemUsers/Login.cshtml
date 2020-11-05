@@ -1,32 +1,60 @@
 ﻿@model ThetaPOS.Models.SystemUser
-<h1>Login</h1>
+
+
+@{
+
+    Layout = "_LayoutLogin";
+}
+
 <input type="hidden" value="@ViewBag.ErrMsg" id="err" />
 
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Login" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Username" class="control-label"></label>
-                    <input asp-for="Username" class="form-control" required />
-                    <span asp-validation-for="Username" class="text-danger"></span>
+        <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                <div class="card-body">
+                                    <form method="post" asp-action="Login">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="Username">Email</label>
+                                            <input class="form-control py-4" asp-for="Username" placeholder="Enter email address" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="Password">Password</label>
+                                            <input class="form-control py-4" asp-for="Password" type="password" placeholder="Enter password" />
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" id="rememberPasswordCheck" type="checkbox" />
+                                                <label class="custom-control-label" for="rememberPasswordCheck">Remember password</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                            <a class="small" href="/SystemUsers/ForgotPassword">Forgot Password?</a>
+                                            <input class="btn btn-primary" type="submit" value="Login" />
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <div class="small"><a href="/SystemUsers/Create">Need an account? Sign up!</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" type="password" class="form-control" required />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Login" class="btn btn-primary" />
-                </div>
-                <div class="form-group">
-                    <a asp-controller="SystemUsers" asp-action="ForgotPassword">ForgotPassword?</a>
-                </div>
-
-            </form>
+            </main>
         </div>
-      
+
     </div>
+
+
+
+
+
+
  @section Scripts {
 
         <script>
