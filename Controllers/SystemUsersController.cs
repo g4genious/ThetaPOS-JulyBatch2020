@@ -132,7 +132,8 @@ namespace ThetaPOS.Controllers
                 HttpContext.Session.SetInt32("Id", usr.Id);
                 if (usr.Role=="Admin")
                 {
-                    return RedirectToAction(nameof(AdminView));
+                    return RedirectToAction(nameof(AdminView
+                        ));
                 }
                 else
                 {
