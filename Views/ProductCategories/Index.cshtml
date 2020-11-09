@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+@{
+    Layout = "_LayoutMain";
+}
 <h1>Index</h1>
 
 <p>
@@ -19,11 +21,40 @@
 
                 </div>
                 <img class="card-img-bottom img-thumbnail" src="/categories/@item.Image" alt="Card image">
-                <a asp-action="Details" class="btn btn-outline-info" asp-route-id="@item.Id">Detail</a>
+                <a id="detail" class="btn btn-outline-info" asp-route-id="@item.Id">Detail</a>
                 <a asp-action="Edit" class="btn btn-outline-success" asp-route-id="@item.Id">Edit</a>
             </div>
         </div>
-       
+
     }
-   
+
 </div>
+
+@section Scripts{
+    <script>
+        $(function () {
+
+
+            //$('#detail').click(function () {
+
+            //    $('detailview').load('/ProductCategories/Details')
+
+            //});
+            $('#detail').click(function () {
+                var id = $(this).data("id");
+                //console.log(id);
+                $('Details').load("/ProductCategories/Details/" + id);
+            });
+
+
+
+
+
+        });
+
+
+
+    </script>
+
+
+}

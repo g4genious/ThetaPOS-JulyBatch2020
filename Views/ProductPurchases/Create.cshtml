@@ -5,7 +5,9 @@
     IList<Product> ListProducts = ViewBag.ProductsList;
     var AllProducts = new SelectList(ListProducts, "Id", "Name");
 }
-
+@{
+    Layout = "_LayoutMain";
+}
 <h1>Create</h1>
 
 <h4>ProductPurchase</h4>

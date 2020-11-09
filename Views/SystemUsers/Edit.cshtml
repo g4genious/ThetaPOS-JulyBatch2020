@@ -1,6 +1,8 @@
 ﻿@model ThetaPOS.Models.SystemUser
 
-
+@{
+    Layout = "_LayoutMain";
+}
 <h1>Edit</h1>
 
 <h4>SystemUser</h4>
@@ -27,7 +29,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ProfilePicture" class="control-label"></label>
-                <input asp-for="ProfilePicture" type="file" id="pp" name="pp"class="form-control" />
+                <input asp-for="ProfilePicture" type="file" id="pp" name="pp" class="form-control" />
                 <span asp-validation-for="ProfilePicture" class="text-danger"></span>
             </div>
             <div class="form-group">

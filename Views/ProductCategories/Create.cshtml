@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Create";
 }
-
+@{
+    Layout = "_LayoutMain";
+}
 
 
 <h2>Add New Product Category</h2>
@@ -15,8 +17,8 @@
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
-             
-            
+
+
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -26,7 +28,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control" ></textarea>
+                <textarea asp-for="Description" class="form-control"></textarea>
                 <small>Text should be around (50-500) words.</small>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
@@ -34,7 +36,7 @@
                 <label asp-for="Image" class="control-label"></label>
                 <input name="categoryimg" id="categoryimg" type="file" class="form-control-file" />
                 <span asp-validation-for="Image" class="text-danger"></span>
-                
+
             </div>
             <div class="form-group">
                 <input type="submit" value="Add New" class="btn btn-primary btn-block" />

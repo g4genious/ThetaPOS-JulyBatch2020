@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+@{
+    Layout = "_LayoutMain";
+}
 <h1>Index</h1>
 
 <p>
@@ -34,7 +36,7 @@
             $('#card').click(
 
                 $().load('/Products/ProductsData')
-               );
+            );
 
         });
     </script>
